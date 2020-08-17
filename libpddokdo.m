@@ -140,16 +140,27 @@
 	*/
 	if ([self.weatherWidget respondsToSelector:@selector(currentForecastModel)]) {
 		if ([self.weatherWidget currentForecastModel]) {
-			WADayForecast *dailyForecast = [[self.weatherWidget currentForecastModel] dailyForecasts][0];
-			if (type == 0) {
-				return [NSString stringWithFormat:@"%.0f°", dailyForecast.high.celsius];
-			} else if (type == 1) {
-				return [NSString stringWithFormat:@"%.0f°", dailyForecast.high.fahrenheit];
-			} else if (type == 2) {
-				return [NSString stringWithFormat:@"%.0f°", dailyForecast.high.kelvin];
-			} else {
-				return @"BAD TYPE";
-			}
+
+			if ([[self.weatherWidget currentForecastModel] dailyForecasts].count > 0)
+			{
+				WADayForecast *dailyForecast;
+
+				if ([[[self.weatherWidget currentForecastModel] dailyForecasts] isYesterday] && [[self.weatherWidget currentForecastModel] dailyForecasts].count >= 1)
+					dailyForecast = [[self.weatherWidget currentForecastModel] dailyForecasts][1];
+				else
+					dailyForecast = [[self.weatherWidget currentForecastModel] dailyForecasts][0];
+
+				if (type == 0) {
+					return [NSString stringWithFormat:@"%.0f°", dailyForecast.high.celsius];
+				} else if (type == 1) {
+					return [NSString stringWithFormat:@"%.0f°", dailyForecast.high.fahrenheit];
+				} else if (type == 2) {
+					return [NSString stringWithFormat:@"%.0f°", dailyForecast.high.kelvin];
+				} else {
+					return @"BAD TYPE";
+				}				
+			}				
+			
 		}
 	}
 	return NULL;
@@ -163,16 +174,26 @@
 	*/
 	if ([self.weatherWidget respondsToSelector:@selector(currentForecastModel)]) {
 		if ([self.weatherWidget currentForecastModel]) {
-			WADayForecast *dailyForecast = [[self.weatherWidget currentForecastModel] dailyForecasts][0];
-			if (type == 0) {
-				return [NSString stringWithFormat:@"%.0f°", dailyForecast.low.celsius];
-			} else if (type == 1) {
-				return [NSString stringWithFormat:@"%.0f°", dailyForecast.low.fahrenheit];
-			} else if (type == 2) {
-				return [NSString stringWithFormat:@"%.0f°", dailyForecast.low.kelvin];
-			} else {
-				return @"BAD TYPE";
-			}
+			
+			if ([[self.weatherWidget currentForecastModel] dailyForecasts].count > 0)
+			{
+				WADayForecast *dailyForecast;
+				
+				if ([[[self.weatherWidget currentForecastModel] dailyForecasts] isYesterday] && [[self.weatherWidget currentForecastModel] dailyForecasts].count >= 1)
+					dailyForecast = [[self.weatherWidget currentForecastModel] dailyForecasts][1];
+				else
+					dailyForecast = [[self.weatherWidget currentForecastModel] dailyForecasts][0];
+
+				if (type == 0) {
+					return [NSString stringWithFormat:@"%.0f°", dailyForecast.low.celsius];
+				} else if (type == 1) {
+					return [NSString stringWithFormat:@"%.0f°", dailyForecast.low.fahrenheit];
+				} else if (type == 2) {
+					return [NSString stringWithFormat:@"%.0f°", dailyForecast.low.kelvin];
+				} else {
+					return @"BAD TYPE";
+				}				
+			}					
 		}
 	}
 	return NULL;
